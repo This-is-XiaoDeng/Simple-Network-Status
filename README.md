@@ -75,7 +75,7 @@
 - `site_list`：节点列表
     - `name`：节点名称
     - `url`：节点地址（用于判断状态）
-    - `display_url`：显示url（用于隐藏真实地址，暂未上线）
+    - `display_url`：显示url（用于隐藏真实地址）
 - `lang`：部分语言文本
     - `status`：状态提示文本
         - `working`：状态·工作中
