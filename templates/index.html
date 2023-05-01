@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3>{{ title }}</h3>
+<p>{{ intro }}</p>
+<div class="card">
+  <div class="card-body">
+    <ul class="list-group list-group-light">
+      {% for site in data %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <div>
+          <div class="fw-bold">{{ site.name }}</div>
+          <div class="text-muted">{{ site.url }}</div>
+        </div>
+        <span class="badge rounded-pill badge-{{ site.status_type }}">{{ site.status }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}
