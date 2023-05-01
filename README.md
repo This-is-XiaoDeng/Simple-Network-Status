@@ -56,7 +56,8 @@
         "status": {
             "working": "正常",
             "error": "出错"
-        }
+        },
+        "refresh": "<a href=\"/refresh\">（）点此刷新）</a>"
     }
 }
 ```
@@ -80,4 +81,4 @@
     - `status`：状态提示文本
         - `working`：状态·工作中
         - `error`：状态·错误
-
+    - `refresh`：手动更新提示

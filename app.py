@@ -66,7 +66,7 @@ def home():
                 "%Y-%m-%d %H:%M:%S",
                 time.localtime(data_update_at))
             ) + "" if time.time() - latest_visit <= config["refresh_interval"][2]\
-                else config["lang"]["too_old"],
+                else config["lang"]["refresh"],
         data=site_data)
 
 @app.route("/refresh")
