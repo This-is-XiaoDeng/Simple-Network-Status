@@ -19,6 +19,7 @@ DEFAULT_CONFIG = {
         "status": {
             "working": "正常",
             "error": "出错"
-        }
+        },
+        "too_old": "<a href=\"/refresh\">（）点此刷新）</a>"
     }
 }

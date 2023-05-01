@@ -20,8 +20,16 @@ def get_site_status():
     data_update_at = time.time()
     length = 0
     for site in site_data:
-        req = requests.get(site["url"])
-        # print(req)
+        try:
+            req = requests.get(site["url"])
+        except:
+            site_data[length].update({
+                "status": config["lang"]["status"]["error"],
+                "status_type": "danger"
+            })
+            length += 1
+            continue
+
         if req.status_code == 200:
             site_data[length].update({
                 "status": config["lang"]["status"]["working"],
@@ -32,17 +40,21 @@ def get_site_status():
                 "status": config["lang"]["status"]["error"],
                 "status_type": "danger"
             })
+
+        # 补全 Key
+        if "display_url" not in site_data[length].keys():
+            site_data[length]["diaplay_url"] = None
+
         length += 1
-    # print(site_data)
+        
 get_site_status()
 
 @app.route(config["index_url"])
-def _():
+def home():
     global latest_visit
     latest_visit = time.time()
     links = config["links"]
     for i in range(len(links)):
-        # print(links[i]["url"], config["index_url"])
         links[i]["is_active"] = links[i]["url"] == config["index_url"]
     return flask.render_template(
         "index.html",
@@ -52,9 +64,18 @@ def _():
             "%UPDATE_TIME%",
             time.strftime(
                 "%Y-%m-%d %H:%M:%S",
-                time.localtime(data_update_at))),
-        data=site_data
-    )
+                time.localtime(data_update_at))
+            ) + "" if time.time() - latest_visit <= config["refresh_interval"][2]\
+                else config["lang"]["too_old"],
+        data=site_data)
+
+@app.route("/refresh")
+def refresh():
+    if time.time() - latest_visit >= config["refresh_interval"][2]:
+        get_site_status()
+        return "已刷新"
+    else:
+        return "刷新失败：数据未过期"
 
 def get_status_task():
     while True:
@@ -62,7 +83,7 @@ def get_status_task():
             if time.time() - latest_visit <= config["refresh_interval"][2]\
             else config["refresh_interval"][1])
         get_site_status()
-
+    # 算法目前比较答辩，坐等好人pr（x）
 
 threading.Thread(target=get_status_task).start()
 
