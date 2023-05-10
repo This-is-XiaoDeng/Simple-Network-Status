@@ -14,11 +14,13 @@ DEFAULT_CONFIG = {
     ],
     "refresh_interval": [900, 3600, 1800],
     "index_url": "/",
+    "slow_ttlb": 10,
     "site_list": [],
     "lang": {
         "status": {
             "working": "正常",
-            "error": "出错"
+            "error": "出错",
+            "slow": "缓慢"
         },
         "refresh": "<a href=\"/refresh\">（点此刷新）</a>"
     }

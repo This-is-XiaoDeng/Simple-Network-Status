@@ -12,10 +12,15 @@
           <div class="fw-bold">{{ site.name }}</div>
           <div class="text-muted">{% if site.display_url %}{{ site.display_url }}{% else %}{{ site.url }}{% endif %}</div>
         </div>
-        <span class="badge rounded-pill badge-{{ site.status_type }}">{{ site.status }}</span>
+        <span>
+          {{ site.ttlb }}s&nbsp;&nbsp;
+          <span class="badge rounded-pill badge-{{ site.status_type }}">{{ site.status }}</span>
+        </span>
       </li>
       {% endfor %}
     </ul>
   </div>
 </div>
+<br>
+<p>Powered by <a href="https://github.com/This-is-XiaoDeng/Simple-Network-Status">This-is-XiaoDeng/Simple-Network-Status</a></p>
 {% endblock %}

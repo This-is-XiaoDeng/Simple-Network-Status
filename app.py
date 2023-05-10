@@ -20,25 +20,31 @@ def get_site_status():
     data_update_at = time.time()
     length = 0
     for site in site_data:
+        # print("Getting", site["url"])
         try:
+            start_time = time.time()
             req = requests.get(site["url"])
+            ttlb = round(time.time() - start_time, 3)
         except:
             site_data[length].update({
                 "status": config["lang"]["status"]["error"],
-                "status_type": "danger"
+                "status_type": "danger",
+                "ttlb": "0.000"
             })
             length += 1
             continue
 
         if req.status_code == 200:
             site_data[length].update({
-                "status": config["lang"]["status"]["working"],
-                "status_type": "success"
+                "status": config["lang"]["status"]["working" if ttlb <= config["slow_ttlb"] else "slow"],
+                "status_type": "success" if ttlb <= config["slow_ttlb"] else "warning",
+                "ttlb": str(ttlb) + "0" * (len(str(ttlb).split(".")[-1]) - 3)
             })
         else:
             site_data[length].update({
                 "status": config["lang"]["status"]["error"],
-                "status_type": "danger"
+                "status_type": "danger",
+                "ttlb": 0.000
             })
 
         # 补全 Key
